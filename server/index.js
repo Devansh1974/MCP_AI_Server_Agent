@@ -20,13 +20,15 @@ server.tool(
         a:z.number(),
         b:z.number()
     },
-    async(arg)=>{
+    async (arg)=>{
         const{a,b}=arg;
         return{
-            content: {
+            content: [
+                {
                 type:"text",
                 text:`The sum of ${a} and ${b} is ${a+b}`
-            }
+                }
+            ]
         }
     }
 )

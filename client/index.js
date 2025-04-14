@@ -27,7 +27,7 @@ mcpClient.connect(new SSEClientTransport(new URL("http://localhost:3001/sse")))
         
         console.log('Connected to mcp server')
 
-        tools=(await mcpClient.listTools()).tools.map(tool=>{
+        tools = (await mcpClient.listTools()).tools.map(tool=>{
             return{
                 name: tool.name,
                 description: tool.description,
@@ -43,11 +43,19 @@ mcpClient.connect(new SSEClientTransport(new URL("http://localhost:3001/sse")))
 
 async function chatLoop(toolCall) {
 
-    if(toolCall){
-        const toolResults = await mcpClient.callTool({
+    if (toolCall) {
+
+        console.log(" calling tool",toolCall.name)
+
+
+        
+
+        const toolResult = await mcpClient.callTool({
             name:toolCall.name,
             arguments:toolCall.args
         })
+
+        console.log(toolResult)
     }
 
   const question = await rl.question('You: ');
