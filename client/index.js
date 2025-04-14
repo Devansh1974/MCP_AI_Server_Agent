@@ -50,7 +50,6 @@ async function chatLoop(toolCall) {
         })
     }
 
-
   const question = await rl.question('You: ');
 
   chatHistory.push({
