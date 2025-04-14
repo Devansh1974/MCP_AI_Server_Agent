@@ -47,28 +47,45 @@ async function chatLoop(toolCall) {
 
         console.log(" calling tool",toolCall.name)
 
+        chatHistory.push({
+            role:"model",
+            parts:[
+                {
+                    text:`caling tool ${toolCall.name}`,
+                    type:'text'
+                }
+            ]
+        })
 
-        
 
         const toolResult = await mcpClient.callTool({
             name:toolCall.name,
             arguments:toolCall.args
         })
 
-        console.log(toolResult)
+        chatHistory.push({
+            role:"user",
+            parts:[
+                {
+                    text:"Tool Result : "+ toolResult.content[0].text,
+                    type:'text'
+                }
+            ]
+        })
+    }else{
+
+        const question = await rl.question('You: ');
+
+        chatHistory.push({
+            role: "user",
+            parts: [
+            {
+                text: question,
+                type: "text",
+            },
+            ],
+        });
     }
-
-  const question = await rl.question('You: ');
-
-  chatHistory.push({
-    role: "user",
-    parts: [
-      {
-        text: question,
-        type: "text",
-      },
-    ],
-  });
 
   const response = await ai.models.generateContent({
     model: "gemini-2.0-flash-001",

@@ -1,6 +1,7 @@
 import express from "express";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
+import { createPost } from "./mcp.tool.js";
 import {z} from "zod";
 
 
@@ -32,6 +33,17 @@ server.tool(
         }
     }
 )
+
+server.tool(
+    "createPost",
+    "Create a post on X formaly known as Twitter",{
+        status:z.string()
+    }, async(arg)=>{
+        const{status}=arg;
+        return createPost(status);
+    }
+)
+
 
 // to support multiple simultaneous connections we have a lookup object from
 // sessionId to transport
