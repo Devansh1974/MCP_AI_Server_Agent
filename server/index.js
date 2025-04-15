@@ -3,6 +3,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
 import { createPost } from "./mcp.tool.js";
 import {z} from "zod";
+import axios from 'axios';
 
 
 const server = new McpServer({
@@ -44,6 +45,36 @@ server.tool(
     }
 )
 
+server.tool(
+  "getMotivation",
+  "Returns a motivational quote",
+  {},
+  async () => {
+    try {
+      const response = await axios.get('https://zenquotes.io/api/random');
+      const quote = response.data[0].q;
+      const author = response.data[0].a;
+
+      return {
+        content: [
+          {
+            type: "text",
+            text: `🌟 "${quote}" — ${author}`
+          }
+        ]
+      };
+    } catch (error) {
+      return {
+        content: [
+          {
+            type: "text",
+            text: "Oops! Couldn't fetch a quote right now. Try again later. 🙏"
+          }
+        ]
+      };
+    }
+  }
+);
 
 // to support multiple simultaneous connections we have a lookup object from
 // sessionId to transport
