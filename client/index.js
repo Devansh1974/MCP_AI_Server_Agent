@@ -119,4 +119,3 @@ async function chatLoop(toolCall) {
   console.log(`AI:${responseText}`)
   chatLoop();
 }
-
