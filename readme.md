@@ -2,7 +2,7 @@
 
 A lightweight, Gemini-powered chatbot integrated with [Model Context Protocol (MCP)](https://modelcontext.org/) that allows you to call custom tools like tweeting on **X (formerly Twitter)** via command-line interaction.
 
-This project showcases how AI + Tools can work together using Google Gemini + MCP SDK. Plug in your API keys, run the client, and start chatting or posting tweets directly through your terminal.
+This project showcases how AI + Tools can work together using Google Gemini + MCP SDK. Plug in your API keys, run the client, and start chatting, posting tweets, or getting motivational quotes directly through your terminal.
 
 ---
 
@@ -12,6 +12,7 @@ This project showcases how AI + Tools can work together using Google Gemini + MC
 - 🔧 Supports multiple **MCP tools**
   - `addTwoNumbers`: Adds two numbers
   - `createPost`: Posts a tweet on X (Twitter)
+  - `getMotivation`: Fetches a real-time motivational quote from ZenQuotes API
 - 📡 Real-time communication using Server-Sent Events (SSE)
 - 💬 CLI-based chatbot with tool execution
 
@@ -35,17 +36,16 @@ npm install
 ### 3. Create a `.env` file in the root
 
 ```env
-
 For Client Side - 
 
-GEMINI_API_KEY = 'Your API Key'
+GEMINI_API_KEY='Your API Key'
 
 
 For Server Side - 
 
 TWITTER_API_KEY='Your API key'
 
-TWITTER_API_SECRET='Your Api Secret'
+TWITTER_API_SECRET='Your API Secret'
 
 TWITTER_ACCESS_TOKEN='Your Token'
 
@@ -56,10 +56,11 @@ TWITTER_ACCESS_TOKEN_SECRET='Your Token Secret'
 
 ---
 
-### Required Dependencies 
+### 📦 Required Dependencies 
 
-npm install express zod dotenv readline @google/genai @modelcontextprotocol/sdk twitter-api-v2
-
+```bash
+npm install express zod dotenv readline @google/genai @modelcontextprotocol/sdk twitter-api-v2 axios
+```
 
 ---
 
@@ -87,6 +88,10 @@ AI: Tool Result: The sum of 12 and 34 is 46
 You: Post "Hello world from my bot!" on Twitter
 AI: calling tool createPost
 AI: Tool Result: Tweeted: Hello world from my bot!
+
+You: I'm feeling low, motivate me
+AI: calling tool getMotivation
+AI: Tool Result: "Push yourself, because no one else is going to do it for you." — Anonymous
 ```
 
 ---
@@ -99,7 +104,7 @@ mcp-tweetbot/
 │   └── index.js         # CLI interface with Gemini + MCP
 ├── server/
 │   └── index.js         # Tool registration + MCP server setup
-│   └── mcp.tool.js      # Tool logic (e.g. createPost)
+│   └── mcp.tool.js      # Tool logic (e.g. createPost, getMotivation)
 ├── .env                 # API keys
 └── README.md
 ```
@@ -111,6 +116,7 @@ mcp-tweetbot/
 - Node.js v18+
 - Twitter Developer account (with Read & Write access)
 - Gemini API key from [Google AI Studio](https://makersuite.google.com/)
+- Internet connection (for fetching motivational quotes)
 
 ---
 
